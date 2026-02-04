@@ -1,9 +1,6 @@
 package main;
 
-<<<<<<< HEAD
 import entities.EntityFactory;
-=======
->>>>>>> 542fb2b7c4c03ce30317febad5ec393ba1ac4c68
 import entities.Player;
 import tile.TileManager;
 
@@ -31,15 +28,11 @@ public class GamePanel extends JPanel implements Runnable{
     KeyHandler keyH = new KeyHandler();
     Thread gameThread;
     public CollisionChecker cChecker = new CollisionChecker(this);
-<<<<<<< HEAD
 
     EntityFactory factory = new EntityFactory(this);
     Player player = (Player) factory.createPlayer(keyH);
 
     public GameState currentState;
-=======
-    Player player = new Player(this, keyH);
->>>>>>> 542fb2b7c4c03ce30317febad5ec393ba1ac4c68
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -47,11 +40,8 @@ public class GamePanel extends JPanel implements Runnable{
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
         this.setFocusable(true);
-<<<<<<< HEAD
 
         currentState = new PlayState(this);
-=======
->>>>>>> 542fb2b7c4c03ce30317febad5ec393ba1ac4c68
     }
 
     public void startGameThread() {
@@ -93,26 +83,14 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void update() {
-<<<<<<< HEAD
         currentState.update();
-=======
-        player.update();
->>>>>>> 542fb2b7c4c03ce30317febad5ec393ba1ac4c68
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-<<<<<<< HEAD
         Graphics2D g2 = (Graphics2D)g;
 
         currentState.draw(g2);
-=======
-
-        Graphics2D g2 = (Graphics2D)g;
-
-        tileM.draw(g2);
-        player.draw(g2);
->>>>>>> 542fb2b7c4c03ce30317febad5ec393ba1ac4c68
 
         g2.dispose();
     }
