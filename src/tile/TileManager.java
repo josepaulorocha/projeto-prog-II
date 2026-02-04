@@ -1,7 +1,10 @@
 package tile;
 
 import main.GamePanel;
+<<<<<<< HEAD
 import main.ResourceManager;
+=======
+>>>>>>> 542fb2b7c4c03ce30317febad5ec393ba1ac4c68
 
 import javax.imageio.ImageIO;
 import java.awt.Graphics2D;
@@ -27,6 +30,7 @@ public class TileManager {
     }
 
     public void getTileImage() {
+<<<<<<< HEAD
         tile[0] = new Tile();
         tile[0].image = ResourceManager.getTexture("/tiles/grass_1.png");
 
@@ -43,6 +47,28 @@ public class TileManager {
 
         tile[4] = new Tile();
         tile[4].image = ResourceManager.getTexture("/tiles/background.png");
+=======
+        try {
+            tile[0] = new Tile();
+            tile[0].image = ImageIO.read(getClass().getResourceAsStream("/tiles/grass_1.png"));
+
+            tile[1] = new Tile();
+            tile[1].image = ImageIO.read(getClass().getResourceAsStream("/tiles/grass_2.png"));
+
+            tile[2] = new Tile();
+            tile[2].image = ImageIO.read(getClass().getResourceAsStream("/tiles/brick_1.png"));
+            tile[2].collision = true;
+
+            tile[3] = new Tile();
+            tile[3].image = ImageIO.read(getClass().getResourceAsStream("/tiles/wall_1.png"));
+            tile[3].collision = true;
+
+            tile[4] = new Tile();
+            tile[4].image = ImageIO.read(getClass().getResourceAsStream("/tiles/background.png"));
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+>>>>>>> 542fb2b7c4c03ce30317febad5ec393ba1ac4c68
     }
 
     public void loadMap(String filePatch) {

@@ -2,11 +2,20 @@ package entities;
 
 import main.GamePanel;
 import main.KeyHandler;
+<<<<<<< HEAD
 import main.ResourceManager;
 
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+=======
+
+import javax.imageio.ImageIO;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+>>>>>>> 542fb2b7c4c03ce30317febad5ec393ba1ac4c68
 
 public class Player extends Entity{
     GamePanel gp;
@@ -34,6 +43,7 @@ public class Player extends Entity{
     }
 
     public void getPlayerImage() {
+<<<<<<< HEAD
         up1 = ResourceManager.getTexture("/player/player_up_1.png");
         up2 = ResourceManager.getTexture("/player/player_up_2.png");
         up3 = ResourceManager.getTexture("/player/player_up_3.png");
@@ -75,11 +85,82 @@ public class Player extends Entity{
             if (spriteCounter > 10) { // velocidade da animação
                 spriteNum++;
                 if (spriteNum > 3) {
+=======
+        try {
+            up1 = ImageIO.read(getClass().getResourceAsStream("/player/player_up_1.png"));
+            up2 = ImageIO.read(getClass().getResourceAsStream("/player/player_up_2.png"));
+            up3 = ImageIO.read(getClass().getResourceAsStream("/player/player_up_3.png"));
+            down1 = ImageIO.read(getClass().getResourceAsStream("/player/player_down_1.png"));
+            down2 = ImageIO.read(getClass().getResourceAsStream("/player/player_down_2.png"));
+            down3 = ImageIO.read(getClass().getResourceAsStream("/player/player_down_3.png"));
+            left1 = ImageIO.read(getClass().getResourceAsStream("/player/player_left_1.png"));
+            left2 = ImageIO.read(getClass().getResourceAsStream("/player/player_left_2.png"));
+            left3 = ImageIO.read(getClass().getResourceAsStream("/player/player_left_3.png"));
+            right1 = ImageIO.read(getClass().getResourceAsStream("/player/player_right_1.png"));
+            right2 = ImageIO.read(getClass().getResourceAsStream("/player/player_right_2.png"));
+            right3= ImageIO.read(getClass().getResourceAsStream("/player/player_right_3.png"));
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void update() {
+        if(keyH.upPressed == true) {
+            direction = "up";
+        } else if(keyH.downPressed == true) {
+            direction = "down";
+        } else if(keyH.leftPressed == true) {
+            direction = "left";
+        } else if(keyH.rightPressed == true) {
+            direction = "right";
+        }
+
+        // checa a colisão do tile
+        collisionOn = false;
+        gp.cChecker.checkerTile(this);
+
+        // se colisão é falso, o player pode se mover
+        if(keyH.upPressed || keyH.downPressed ||
+                keyH.leftPressed || keyH.rightPressed) {
+
+            for(int i = 0; i < speed; i++) {
+                collisionOn = false;
+                gp.cChecker.checkerTile(this);
+
+                if(!collisionOn) {
+                    switch(direction) {
+                        case "up":
+                            y--;
+                            break;
+                        case "down":
+                            y++;
+                            break;
+                        case "left":
+                            x--;
+                            break;
+                        case "right":
+                            x++;
+                            break;
+                    }
+                }
+            }
+        }
+
+        if(keyH.upPressed == true || keyH.downPressed == true ||
+                keyH.leftPressed == true || keyH.rightPressed == true) {
+
+            spriteCounter++;
+
+            if(spriteCounter > 10) {
+                spriteNum++;
+                if(spriteNum > 3) {
+>>>>>>> 542fb2b7c4c03ce30317febad5ec393ba1ac4c68
                     spriteNum = 1;
                 }
                 spriteCounter = 0;
             }
         } else {
+<<<<<<< HEAD
             spriteNum = 1; // personagem parado
         }
     }
@@ -96,6 +177,10 @@ public class Player extends Entity{
                 case "left":  x -= speed; break;
                 case "right": x += speed; break;
             }
+=======
+            // personagem parado
+            spriteNum = 1;
+>>>>>>> 542fb2b7c4c03ce30317febad5ec393ba1ac4c68
         }
     }
 
