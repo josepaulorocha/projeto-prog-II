@@ -1,5 +1,6 @@
 package main;
 
+import entities.EntityFactory;
 import entities.Player;
 import tile.TileManager;
 
@@ -27,7 +28,11 @@ public class GamePanel extends JPanel implements Runnable{
     KeyHandler keyH = new KeyHandler();
     Thread gameThread;
     public CollisionChecker cChecker = new CollisionChecker(this);
-    Player player = new Player(this, keyH);
+
+    EntityFactory factory = new EntityFactory(this);
+    Player player = (Player) factory.createPlayer(keyH);
+
+    public GameState currentState;
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -35,6 +40,8 @@ public class GamePanel extends JPanel implements Runnable{
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
         this.setFocusable(true);
+
+        currentState = new PlayState(this);
     }
 
     public void startGameThread() {
@@ -76,16 +83,14 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void update() {
-        player.update();
+        currentState.update();
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-
         Graphics2D g2 = (Graphics2D)g;
 
-        tileM.draw(g2);
-        player.draw(g2);
+        currentState.draw(g2);
 
         g2.dispose();
     }

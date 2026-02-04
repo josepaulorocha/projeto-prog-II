@@ -2,12 +2,11 @@ package entities;
 
 import main.GamePanel;
 import main.KeyHandler;
+import main.ResourceManager;
 
-import javax.imageio.ImageIO;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 public class Player extends Entity{
     GamePanel gp;
@@ -35,81 +34,68 @@ public class Player extends Entity{
     }
 
     public void getPlayerImage() {
-        try {
-            up1 = ImageIO.read(getClass().getResourceAsStream("/player/player_up_1.png"));
-            up2 = ImageIO.read(getClass().getResourceAsStream("/player/player_up_2.png"));
-            up3 = ImageIO.read(getClass().getResourceAsStream("/player/player_up_3.png"));
-            down1 = ImageIO.read(getClass().getResourceAsStream("/player/player_down_1.png"));
-            down2 = ImageIO.read(getClass().getResourceAsStream("/player/player_down_2.png"));
-            down3 = ImageIO.read(getClass().getResourceAsStream("/player/player_down_3.png"));
-            left1 = ImageIO.read(getClass().getResourceAsStream("/player/player_left_1.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream("/player/player_left_2.png"));
-            left3 = ImageIO.read(getClass().getResourceAsStream("/player/player_left_3.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream("/player/player_right_1.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("/player/player_right_2.png"));
-            right3= ImageIO.read(getClass().getResourceAsStream("/player/player_right_3.png"));
-        } catch(IOException e) {
-            e.printStackTrace();
-        }
+        up1 = ResourceManager.getTexture("/player/player_up_1.png");
+        up2 = ResourceManager.getTexture("/player/player_up_2.png");
+        up3 = ResourceManager.getTexture("/player/player_up_3.png");
+        down1 = ResourceManager.getTexture("/player/player_down_1.png");
+        down2 = ResourceManager.getTexture("/player/player_down_2.png");
+        down3 = ResourceManager.getTexture("/player/player_down_3.png");
+        left1 = ResourceManager.getTexture("/player/player_left_1.png");
+        left2 = ResourceManager.getTexture("/player/player_left_2.png");
+        left3 = ResourceManager.getTexture("/player/player_left_3.png");
+        right1 = ResourceManager.getTexture("/player/player_right_1.png");
+        right2 = ResourceManager.getTexture("/player/player_right_2.png");
+        right3= ResourceManager.getTexture("/player/player_right_3.png");
     }
 
     public void update() {
-        if(keyH.upPressed == true) {
-            direction = "up";
-        } else if(keyH.downPressed == true) {
-            direction = "down";
-        } else if(keyH.leftPressed == true) {
-            direction = "left";
-        } else if(keyH.rightPressed == true) {
-            direction = "right";
+        boolean isMoving = false;
+
+        // EIXO Y (Vertical)
+        if (keyH.upPressed) {
+            move("up");
+            isMoving = true;
+        } else if (keyH.downPressed) {
+            move("down");
+            isMoving = true;
         }
 
-        // checa a colisão do tile
-        collisionOn = false;
-        gp.cChecker.checkerTile(this);
-
-        // se colisão é falso, o player pode se mover
-        if(keyH.upPressed || keyH.downPressed ||
-                keyH.leftPressed || keyH.rightPressed) {
-
-            for(int i = 0; i < speed; i++) {
-                collisionOn = false;
-                gp.cChecker.checkerTile(this);
-
-                if(!collisionOn) {
-                    switch(direction) {
-                        case "up":
-                            y--;
-                            break;
-                        case "down":
-                            y++;
-                            break;
-                        case "left":
-                            x--;
-                            break;
-                        case "right":
-                            x++;
-                            break;
-                    }
-                }
-            }
+        // EIXO X (Horizontal)
+        if (keyH.leftPressed) {
+            move("left");
+            isMoving = true;
+        } else if (keyH.rightPressed) {
+            move("right");
+            isMoving = true;
         }
 
-        if(keyH.upPressed == true || keyH.downPressed == true ||
-                keyH.leftPressed == true || keyH.rightPressed == true) {
-
+        // gerenciamento dos sprites
+        if (isMoving) {
             spriteCounter++;
-
-            if(spriteCounter > 10) {
+            if (spriteCounter > 10) { // velocidade da animação
                 spriteNum++;
-                if(spriteNum > 3) {
+                if (spriteNum > 3) {
                     spriteNum = 1;
                 }
                 spriteCounter = 0;
             }
         } else {
-            // personagem parado
-            spriteNum = 1;
+            spriteNum = 1; // personagem parado
+        }
+    }
+
+    private void move(String direction) {
+        this.direction = direction; // atualiza a direção
+        collisionOn = false;
+        gp.cChecker.checkerTile(this);
+
+        if (!collisionOn) {
+            switch (direction) {
+                case "up":    y -= speed; break;
+                case "down":  y += speed; break;
+                case "left":  x -= speed; break;
+                case "right": x += speed; break;
+            }
         }
     }
 
