@@ -3,10 +3,8 @@ package tile;
 import main.GamePanel;
 import main.ResourceManager;
 
-import javax.imageio.ImageIO;
 import java.awt.Graphics2D;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
@@ -98,7 +96,7 @@ public class TileManager {
                     mapTileNum[col][row] = TILE_WALL;
                 }
                 else {
-                    // chance aleatória de virar tijoloa
+                    // chance aleatória de virar tijolo
                     if (Math.random() < 0.90) { // 90%
                         mapTileNum[col][row] = TILE_BRICK;
                     }

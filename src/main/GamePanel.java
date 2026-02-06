@@ -1,5 +1,6 @@
 package main;
 
+import entities.Bomb;
 import entities.EntityFactory;
 import entities.Player;
 import tile.TileManager;
@@ -9,6 +10,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
 
 public class GamePanel extends JPanel implements Runnable{
     // SCREEN SETTINGS
@@ -24,13 +26,15 @@ public class GamePanel extends JPanel implements Runnable{
     // FPS
     int FPS = 60;
 
-    TileManager tileM = new TileManager(this);
-    KeyHandler keyH = new KeyHandler();
+    public TileManager tileM = new TileManager(this);
+    public KeyHandler keyH = new KeyHandler();
     Thread gameThread;
     public CollisionChecker cChecker = new CollisionChecker(this);
 
     EntityFactory factory = new EntityFactory(this);
-    Player player = (Player) factory.createPlayer(keyH);
+    public Player player = (Player) factory.createPlayer(keyH);
+
+    public ArrayList<Bomb> bombs = new ArrayList<>();
 
     public GameState currentState;
 
@@ -58,7 +62,7 @@ public class GamePanel extends JPanel implements Runnable{
         long timer = 0;
         int drawCount = 0;
 
-        // método para rodar o jogo em 60 quadros por segundo
+        // metodo para rodar o jogo em 60 quadros por segundo
         while(gameThread != null) {
 
             currentTime = System.nanoTime();

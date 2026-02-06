@@ -12,7 +12,10 @@ public class Player extends Entity{
     GamePanel gp;
     KeyHandler keyH;
 
+    int bombCooldown = 0;
+
     public Player(GamePanel gp, KeyHandler keyH) {
+        super();
         this.gp = gp;
         this.keyH = keyH;
 
@@ -69,6 +72,14 @@ public class Player extends Entity{
             isMoving = true;
         }
 
+        // lógica da Bomba
+        if (bombCooldown > 0) bombCooldown--;
+
+        if (keyH.spacePressed && bombCooldown == 0) {
+            placeBomb();
+            bombCooldown = 30;
+        }
+
         // gerenciamento dos sprites
         if (isMoving) {
             spriteCounter++;
@@ -81,6 +92,32 @@ public class Player extends Entity{
             }
         } else {
             spriteNum = 1; // personagem parado
+        }
+    }
+
+    private void placeBomb() {
+        // calcular o centro do jogador para determinar o tile
+        int centerX = x + solidArea.x + solidArea.width / 2;
+        int centerY = y + solidArea.y + solidArea.height / 2;
+
+        // posição do grid
+        int col = centerX / gp.tileSize;
+        int row = centerY / gp.tileSize;
+
+        int bombX = col * gp.tileSize;
+        int bombY = row * gp.tileSize;
+
+        // verifica se já existe bomba na posição atual
+        boolean bombExists = false;
+        for(Bomb b : gp.bombs) {
+            if(b.x == bombX && b.y == bombY) {
+                bombExists = true;
+                break;
+            }
+        }
+
+        if(!bombExists) {
+            gp.bombs.add(new Bomb(gp, bombX, bombY));
         }
     }
 
