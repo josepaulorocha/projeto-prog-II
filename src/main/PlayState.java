@@ -1,6 +1,7 @@
 package main;
 
 import entities.Bomb;
+import entities.Explosion;
 
 import java.awt.Graphics2D;
 
@@ -22,6 +23,15 @@ public class PlayState implements GameState{
                 gp.bombs.remove(i);
             }
         }
+
+        // atualiza as explosões
+        for (int i = gp.explosions.size() - 1; i >= 0; i--) {
+            Explosion e = gp.explosions.get(i);
+            e.update();
+            if (e.isFinished()) {
+                gp.explosions.remove(i);
+            }
+        }
     }
 
     @Override
@@ -31,6 +41,11 @@ public class PlayState implements GameState{
         // desenha as bombas
         for (Bomb b : gp.bombs) {
             b.draw(g2);
+        }
+
+        // desenha as explosões
+        for (Explosion e : gp.explosions) {
+            e.draw(g2);
         }
 
         gp.player.draw(g2);

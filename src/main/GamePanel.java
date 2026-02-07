@@ -2,6 +2,7 @@ package main;
 
 import entities.Bomb;
 import entities.EntityFactory;
+import entities.Explosion;
 import entities.Player;
 import tile.TileManager;
 
@@ -35,6 +36,7 @@ public class GamePanel extends JPanel implements Runnable{
     public Player player = (Player) factory.createPlayer(keyH);
 
     public ArrayList<Bomb> bombs = new ArrayList<>();
+    public ArrayList<Explosion> explosions = new ArrayList<>();
 
     public GameState currentState;
 
