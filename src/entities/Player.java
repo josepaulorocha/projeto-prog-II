@@ -117,7 +117,7 @@ public class Player extends Entity{
         }
 
         if(!bombExists) {
-            gp.bombs.add(new Bomb(gp, bombX, bombY));
+            gp.bombs.add(gp.factory.createBomb(bombX, bombY));
         }
     }
 

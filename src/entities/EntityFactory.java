@@ -13,4 +13,12 @@ public class EntityFactory {
     public Entity createPlayer(KeyHandler keyH) {
         return new Player(gp, keyH);
     }
+
+    public Bomb createBomb(int x, int y) {
+        return new Bomb(gp, x, y);
+    }
+
+    public Explosion createExplosion(int x, int y, String type, String direction) {
+        return new Explosion(gp, x, y, type, direction);
+    }
 }

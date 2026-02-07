@@ -32,7 +32,7 @@ public class GamePanel extends JPanel implements Runnable{
     Thread gameThread;
     public CollisionChecker cChecker = new CollisionChecker(this);
 
-    EntityFactory factory = new EntityFactory(this);
+    public EntityFactory factory = new EntityFactory(this);
     public Player player = (Player) factory.createPlayer(keyH);
 
     public ArrayList<Bomb> bombs = new ArrayList<>();

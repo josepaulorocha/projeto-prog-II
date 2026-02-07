@@ -54,7 +54,7 @@ public class Bomb extends Entity{
     // lógica de explosão
     private void fire(int power) {
         // centro da explosão
-        gp.explosions.add(new Explosion(gp, x, y, "center", ""));
+        gp.explosions.add(gp.factory.createExplosion(x, y, "center", ""));
 
         // explode nas 4 direções
         createExplosionsInDirection(0, -1, power, "up");
@@ -81,11 +81,11 @@ public class Bomb extends Entity{
             // define se é ponta ou meio
             String type = (i == power) ? "end" : "middle";
 
-            gp.explosions.add(new Explosion(gp, targetX, targetY, type, direction));
+            gp.explosions.add(gp.factory.createExplosion(targetX, targetY, type, direction));
 
             if (tile == gp.tileM.TILE_BRICK) {
                 gp.tileM.mapTileNum[col][row] = gp.tileM.TILE_GRASS;
-                gp.explosions.add(new Explosion(gp, targetX, targetY, "brick", ""));
+                gp.explosions.add(gp.factory.createExplosion(targetX, targetY, "brick", ""));
                 break;
             }
         }
