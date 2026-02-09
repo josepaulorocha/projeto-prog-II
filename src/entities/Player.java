@@ -12,15 +12,19 @@ public class Player extends Entity{
     GamePanel gp;
     KeyHandler keyH;
 
+    // identificador do player
+    int playerId;
+
     int bombCooldown = 0;
 
     int deathTimer = 0;
     int deathSpriteNum = 1;
 
-    public Player(GamePanel gp, KeyHandler keyH) {
+    public Player(GamePanel gp, KeyHandler keyH, int playerId) {
         super();
         this.gp = gp;
         this.keyH = keyH;
+        this.playerId = playerId;
 
         solidArea = new Rectangle();
         solidArea.x = 8;
@@ -33,37 +37,54 @@ public class Player extends Entity{
     }
 
     public void setDefaultValues() {
-        x = 96;
-        y = 32;
         speed = 3;
-        direction ="down";
+        alive = true;
+        deathTimer = 0;
+
+        // posição de spawn dos players no grid
+        if (playerId == 1) {
+            x = gp.tileSize;
+            y = 32;
+            direction ="down";
+        } else {
+            x = 15 * gp.tileSize;
+            y = (11 * gp.tileSize) - 16;
+            direction ="down";
+        }
     }
 
     public void getPlayerImage() {
-        up1 = ResourceManager.getTexture("/player/player_up_1.png");
-        up2 = ResourceManager.getTexture("/player/player_up_2.png");
-        up3 = ResourceManager.getTexture("/player/player_up_3.png");
-        down1 = ResourceManager.getTexture("/player/player_down_1.png");
-        down2 = ResourceManager.getTexture("/player/player_down_2.png");
-        down3 = ResourceManager.getTexture("/player/player_down_3.png");
-        left1 = ResourceManager.getTexture("/player/player_left_1.png");
-        left2 = ResourceManager.getTexture("/player/player_left_2.png");
-        left3 = ResourceManager.getTexture("/player/player_left_3.png");
-        right1 = ResourceManager.getTexture("/player/player_right_1.png");
-        right2 = ResourceManager.getTexture("/player/player_right_2.png");
-        right3= ResourceManager.getTexture("/player/player_right_3.png");
+        String prefix = (playerId == 1) ? "player" : "player2";
 
-        // sprites de morte
-        death1 = ResourceManager.getTexture("/player/player_death_1.png");
-        death2 = ResourceManager.getTexture("/player/player_death_2.png");
-        death3 = ResourceManager.getTexture("/player/player_death_3.png");
-        death4 = ResourceManager.getTexture("/player/player_death_4.png");
-        death5 = ResourceManager.getTexture("/player/player_death_5.png");
-        death6 = ResourceManager.getTexture("/player/player_death_6.png");
-        death7 = ResourceManager.getTexture("/player/player_death_7.png");
-        death8 = ResourceManager.getTexture("/player/player_death_8.png");
-        death9 = ResourceManager.getTexture("/player/player_death_9.png");
-        death10 = ResourceManager.getTexture("/player/player_death_10.png");
+
+        // carrega os sprites de movimento
+        up1 = ResourceManager.getTexture("/player/" + prefix + "_up_1.png");
+        up2 = ResourceManager.getTexture("/player/" + prefix + "_up_2.png");
+        up3 = ResourceManager.getTexture("/player/" + prefix + "_up_3.png");
+
+        down1 = ResourceManager.getTexture("/player/" + prefix + "_down_1.png");
+        down2 = ResourceManager.getTexture("/player/" + prefix + "_down_2.png");
+        down3 = ResourceManager.getTexture("/player/" + prefix + "_down_3.png");
+
+        left1 = ResourceManager.getTexture("/player/" + prefix + "_left_1.png");
+        left2 = ResourceManager.getTexture("/player/" + prefix + "_left_2.png");
+        left3 = ResourceManager.getTexture("/player/" + prefix + "_left_3.png");
+
+        right1 = ResourceManager.getTexture("/player/" + prefix + "_right_1.png");
+        right2 = ResourceManager.getTexture("/player/" + prefix + "_right_2.png");
+        right3 = ResourceManager.getTexture("/player/" + prefix + "_right_3.png");
+
+        // carrega os sprites de morte
+        death1 = ResourceManager.getTexture("/player/" + prefix + "_death_1.png");
+        death2 = ResourceManager.getTexture("/player/" + prefix + "_death_2.png");
+        death3 = ResourceManager.getTexture("/player/" + prefix + "_death_3.png");
+        death4 = ResourceManager.getTexture("/player/" + prefix + "_death_4.png");
+        death5 = ResourceManager.getTexture("/player/" + prefix + "_death_5.png");
+        death6 = ResourceManager.getTexture("/player/" + prefix + "_death_6.png");
+        death7 = ResourceManager.getTexture("/player/" + prefix + "_death_7.png");
+        death8 = ResourceManager.getTexture("/player/" + prefix + "_death_8.png");
+        death9 = ResourceManager.getTexture("/player/" + prefix + "_death_9.png");
+        death10 = ResourceManager.getTexture("/player/" + prefix + "_death_10.png");
     }
 
     public void update() {
@@ -80,20 +101,34 @@ public class Player extends Entity{
 
         boolean isMoving = false;
 
-        // EIXO Y (Vertical)
-        if (keyH.upPressed) {
+        boolean up = false, down = false, left = false, right = false, bomb = false;
+
+        if (playerId == 1) {
+            up = keyH.upPressed;
+            down = keyH.downPressed;
+            left = keyH.leftPressed;
+            right = keyH.rightPressed;
+            bomb = keyH.spacePressed;
+        } else {
+            up = keyH.upPressed2;
+            down = keyH.downPressed2;
+            left = keyH.leftPressed2;
+            right = keyH.rightPressed2;
+            bomb = keyH.enterPressed;
+        }
+
+        if (up) {
             move("up");
             isMoving = true;
-        } else if (keyH.downPressed) {
+        } else if (down) {
             move("down");
             isMoving = true;
         }
 
-        // EIXO X (Horizontal)
-        if (keyH.leftPressed) {
+        if (left) {
             move("left");
             isMoving = true;
-        } else if (keyH.rightPressed) {
+        } else if (right) {
             move("right");
             isMoving = true;
         }
@@ -101,7 +136,7 @@ public class Player extends Entity{
         // lógica da Bomba
         if (bombCooldown > 0) bombCooldown--;
 
-        if (keyH.spacePressed && bombCooldown == 0) {
+        if (bomb && bombCooldown == 0) {
             placeBomb();
             bombCooldown = 30;
         }

@@ -13,7 +13,8 @@ public class PlayState implements GameState{
     }
     @Override
     public void update() {
-        gp.player.update();
+        gp.player1.update();
+        gp.player2.update();
 
         // atualiza as bombas
         for (int i = gp.bombs.size() - 1; i >= 0; i--) {
@@ -48,6 +49,7 @@ public class PlayState implements GameState{
             e.draw(g2);
         }
 
-        gp.player.draw(g2);
+        gp.player1.draw(g2);
+        gp.player2.draw(g2);
     }
 }

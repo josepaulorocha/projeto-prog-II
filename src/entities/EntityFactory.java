@@ -10,8 +10,8 @@ public class EntityFactory {
         this.gp = gp;
     }
 
-    public Entity createPlayer(KeyHandler keyH) {
-        return new Player(gp, keyH);
+    public Entity createPlayer(KeyHandler keyH, int playerId) {
+        return new Player(gp, keyH, playerId);
     }
 
     public Bomb createBomb(int x, int y) {
