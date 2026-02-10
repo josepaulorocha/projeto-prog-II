@@ -4,13 +4,15 @@ import main.GamePanel;
 import main.ResourceManager;
 
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 public class Bomb extends Entity{
     GamePanel gp;
-    int timer = 0;
+
+    private int timer = 0;
     // 3 segundos * 60 FPS = 180 frames
-    int explodeTime = 180;
+    private final int explodeTime = 180;
 
     BufferedImage bomb1, bomb2, bomb3;
 
@@ -23,10 +25,17 @@ public class Bomb extends Entity{
         this.x = (x/gp.tileSize) * gp.tileSize;
         this.y = (y/gp.tileSize) * gp.tileSize;
 
-        getBombImages();
+        // área de colisão da bomba
+        solidArea = new Rectangle();
+        solidArea.x = 0;
+        solidArea.y = 0;
+        solidArea.width = gp.tileSize;
+        solidArea.height = gp.tileSize;
+
+        getBombImage();
     }
 
-    private void getBombImages() {
+    private void getBombImage() {
         // utiliza do Padrão de Projeto Flyweight para minimizar o custo de memória e otimizar perfomance
         bomb1 = ResourceManager.getTexture("/bomb/bomb_1.png");
         bomb2 = ResourceManager.getTexture("/bomb/bomb_2.png");

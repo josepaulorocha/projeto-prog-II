@@ -13,11 +13,11 @@ public class Player extends Entity{
     KeyHandler keyH;
 
     // identificador do player
-    int playerId;
+    private int playerId;
 
-    int bombCooldown = 0;
+    private int bombCooldown = 0;
 
-    int deathTimer = 0;
+    private int deathTimer = 0;
     public int deathSpriteNum = 1;
 
     public Player(GamePanel gp, KeyHandler keyH, int playerId) {
@@ -241,7 +241,9 @@ public class Player extends Entity{
     private void move(String direction) {
         this.direction = direction; // atualiza a direção
         collisionOn = false;
+
         gp.cChecker.checkerTile(this);
+        gp.cChecker.checkerEntity(this, gp.bombs);
 
         if (!collisionOn) {
             switch (direction) {

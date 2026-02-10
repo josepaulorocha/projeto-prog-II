@@ -15,29 +15,29 @@ import java.util.ArrayList;
 
 public class GamePanel extends JPanel implements Runnable{
     // SCREEN SETTINGS
-    final int originalTileSize = 16; // 16x16 tile
-    final int scale = 3;
+    private final int originalTileSize = 16; // 16x16 tile
+    private final int scale = 3;
 
     public final int tileSize = originalTileSize * scale; // 48x48 tile
     public final int maxScreenCol = 17;
     public final int maxScreenRow = 13;
-    final int screenWidth = tileSize * maxScreenCol; // 816 pixels
-    final int screenHeight = tileSize * maxScreenRow; // 624 pixels
+    public final int screenWidth = tileSize * maxScreenCol; // 816 pixels
+    public final int screenHeight = tileSize * maxScreenRow; // 624 pixels
 
     // FPS
-    int FPS = 60;
+    private int FPS = 60;
 
     public TileManager tileM = new TileManager(this);
     public KeyHandler keyH = new KeyHandler();
-    Thread gameThread;
     public CollisionChecker cChecker = new CollisionChecker(this);
-
     public EntityFactory factory = new EntityFactory(this);
+    private Thread gameThread;
 
-    // jogadores
+    // PLAYERS
     public Player player1 = (Player) factory.createPlayer(keyH, 1);
     public Player player2 = (Player) factory.createPlayer(keyH, 2);
 
+    // BOMBS AND EXPLOSIONS
     public ArrayList<Bomb> bombs = new ArrayList<>();
     public ArrayList<Explosion> explosions = new ArrayList<>();
 

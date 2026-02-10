@@ -9,7 +9,7 @@ import java.awt.Graphics2D;
 public class PlayState implements GameState{
     GamePanel gp;
 
-    int gameOverTimer = 0;
+    private int gameOverTimer = 0;
 
     public PlayState(GamePanel gp) {
         this.gp = gp;

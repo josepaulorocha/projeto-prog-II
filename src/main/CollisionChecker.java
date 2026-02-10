@@ -1,6 +1,9 @@
 package main;
 
+import entities.Bomb;
 import entities.Entity;
+
+import java.util.ArrayList;
 
 public class CollisionChecker {
     GamePanel gp;
@@ -55,6 +58,46 @@ public class CollisionChecker {
                     entity.collisionOn = true;
                 }
                 break;
+        }
+    }
+
+    public void checkerEntity(Entity entity, ArrayList<Bomb> targets) {
+        for (int i = 0; i < targets.size(); i++) {
+            Bomb target = targets.get(i);
+
+            if(target != null) {
+                int entitySolidX = entity.solidArea.x;
+                int entitySolidY = entity.solidArea.y;
+                int targetSolidX = target.solidArea.x;
+                int targetSolidY = target.solidArea.y;
+
+                entity.solidArea.x = entity.x + entity.solidArea.x;
+                entity.solidArea.y = entity.y + entity.solidArea.y;
+
+                target.solidArea.x = target.x + target.solidArea.x;
+                target.solidArea.y = target.y + target.solidArea.y;
+
+                // verifica se o player está dentro da bomba
+                boolean currentlyInside = entity.solidArea.intersects(target.solidArea);
+
+                switch(entity.direction) {
+                    case "up": entity.solidArea.y -= entity.speed; break;
+                    case "down": entity.solidArea.y += entity.speed; break;
+                    case "left": entity.solidArea.x -= entity.speed; break;
+                    case "right": entity.solidArea.x += entity.speed; break;
+                }
+
+                if(entity.solidArea.intersects(target.solidArea)) {
+                    if (!currentlyInside) {
+                        entity.collisionOn = true;
+                    }
+                }
+
+                entity.solidArea.x = entitySolidX;
+                entity.solidArea.y = entitySolidY;
+                target.solidArea.x = targetSolidX;
+                target.solidArea.y = targetSolidY;
+            }
         }
     }
 }

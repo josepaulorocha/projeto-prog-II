@@ -14,6 +14,7 @@ public class TileManager {
     public static final int TILE_WALL = 3; // indestrutível
 
     GamePanel gp;
+
     public Tile[] tile;
     public int mapTileNum[][];
 

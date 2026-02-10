@@ -8,9 +8,10 @@ import java.awt.image.BufferedImage;
 
 public class Explosion extends Entity {
     GamePanel gp;
-    int timer = 0;
-    int lifeTime = 30; // duração da explosão
-    String type;
+
+    private int timer = 0;
+    private int lifeTime = 30; // duração da explosão
+    private String type;
 
     public Explosion(GamePanel gp, int x, int y, String type, String direction) {
         this.gp = gp;
