@@ -1,6 +1,7 @@
 package main;
 
 import entities.Bomb;
+import entities.Entity;
 import entities.Explosion;
 
 import java.awt.Graphics2D;
@@ -8,13 +9,28 @@ import java.awt.Graphics2D;
 public class PlayState implements GameState{
     GamePanel gp;
 
+    int gameOverTimer = 0;
+
     public PlayState(GamePanel gp) {
         this.gp = gp;
     }
+
     @Override
     public void update() {
-        gp.player1.update();
-        gp.player2.update();
+        if (gp.player1 != null) gp.player1.update();
+        if (gp.player2 != null) gp.player2.update();
+
+        boolean p1Dead = (gp.player1 != null && gp.player1.isDeathAnimationFinished());
+        boolean p2Dead = (gp.player2 != null && gp.player2.isDeathAnimationFinished());
+
+        if (p1Dead || p2Dead) {
+            gameOverTimer++;
+
+            if (gameOverTimer > 120) {
+                gp.setState(new MenuState(gp));
+                return;
+            }
+        }
 
         // atualiza as bombas
         for (int i = gp.bombs.size() - 1; i >= 0; i--) {
@@ -49,7 +65,7 @@ public class PlayState implements GameState{
             e.draw(g2);
         }
 
-        gp.player1.draw(g2);
-        gp.player2.draw(g2);
+        if (gp.player1 != null) gp.player1.draw(g2);
+        if (gp.player2 != null) gp.player2.draw(g2);
     }
 }

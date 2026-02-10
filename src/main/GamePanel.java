@@ -50,7 +50,21 @@ public class GamePanel extends JPanel implements Runnable{
         this.addKeyListener(keyH);
         this.setFocusable(true);
 
-        currentState = new PlayState(this);
+        currentState = new MenuState(this);
+    }
+
+    public void resetGame() {
+        bombs.clear();
+        explosions.clear();
+
+        tileM = new TileManager(this);
+
+        player1 = factory.createPlayer(keyH, 1);
+        player2 = factory.createPlayer(keyH, 2);
+    }
+
+    public void setState(GameState state) {
+        this.currentState = state;
     }
 
     public void startGameThread() {
@@ -84,7 +98,6 @@ public class GamePanel extends JPanel implements Runnable{
             }
 
             if (timer >= 1000000000) {
-                System.out.println("FPS: " + drawCount);
                 drawCount = 0;
                 timer = 0;
             }

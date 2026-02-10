@@ -10,7 +10,7 @@ public class EntityFactory {
         this.gp = gp;
     }
 
-    public Entity createPlayer(KeyHandler keyH, int playerId) {
+    public Player createPlayer(KeyHandler keyH, int playerId) {
         return new Player(gp, keyH, playerId);
     }
 

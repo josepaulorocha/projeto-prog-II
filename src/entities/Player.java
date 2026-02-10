@@ -18,7 +18,7 @@ public class Player extends Entity{
     int bombCooldown = 0;
 
     int deathTimer = 0;
-    int deathSpriteNum = 1;
+    public int deathSpriteNum = 1;
 
     public Player(GamePanel gp, KeyHandler keyH, int playerId) {
         super();
@@ -40,6 +40,8 @@ public class Player extends Entity{
         speed = 3;
         alive = true;
         deathTimer = 0;
+
+        bombCooldown = 30;
 
         // posição de spawn dos players no grid
         if (playerId == 1) {
@@ -85,6 +87,10 @@ public class Player extends Entity{
         death8 = ResourceManager.getTexture("/player/" + prefix + "_death_8.png");
         death9 = ResourceManager.getTexture("/player/" + prefix + "_death_9.png");
         death10 = ResourceManager.getTexture("/player/" + prefix + "_death_10.png");
+    }
+
+    public boolean isDeathAnimationFinished() {
+        return !alive && deathTimer >= 165;
     }
 
     public void update() {
@@ -166,7 +172,6 @@ public class Player extends Entity{
 
             if (playerRect.intersects(explosionRect)) {
                 alive = false;
-                System.out.println("Player morreu");
                 deathTimer = 0;
                 break;
             }
